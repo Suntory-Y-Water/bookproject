@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -10,6 +11,12 @@
     <title>本棚アプリ</title>
   </head>
   <body>
+  {% extends 'base.html'%}
+
+  {% block title %} 書籍一覧 {% endblock title %}
+
+  {% block context %}
+
     {% for item in object_list %}
     <div class="card" style="width: 18rem;">
         <h5 class="card-header">{{item.title}}</h5>
@@ -19,6 +26,7 @@
           <h6 class="card-title">{{item.category}}</h5>
         </div>
       </div>
-    {% endfor %}    
+    {% endfor %}
+  {% endblock context %}
   </body>
 </html>
