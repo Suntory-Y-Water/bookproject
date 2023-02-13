@@ -1,6 +1,6 @@
 from django.db import models
 
-CATEGORY = (('business', 'ビジネス'), ('life', '生活'), ('other', 'その他'))
+CATEGORY = (('business', 'ビジネス'), ('life', '生活'), ('manga', '漫画'), ('other', 'その他'))
 
 class Book(models.Model):
     # データ型の定義
