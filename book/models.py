@@ -8,9 +8,13 @@ class Book(models.Model):
     # データ型の定義
     title = models.CharField(max_length=100)
     text = models.TextField()
+
     # nullとblankはセットがいい
-    thumbnail = models.ImageField(null=True, blank=True)
+    thumbnail = models.ImageField(null=True, blank=True, default=None)
     category = models.CharField(max_length=100, choices=CATEGORY)
+
+    # ユーザの記録を残すための処理
+    user = models.ForeignKey('auth.User', on_delete=models.CASCADE)
 
     def __str__(self) -> str:
         return self.title
