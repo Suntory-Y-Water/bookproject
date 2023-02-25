@@ -8,7 +8,7 @@
   <form method="post" class="p-4 m-4 bg-light border border-success rounded form-group">
     {% csrf_token %}
     <label>対象書籍</label>
-    <input class="form-control" value="{{ object.title }}" readonly>
+    <input class="form-control" value="{{ book.title }}" readonly>
     <label>タイトル</label>
     <input class="form-control" name="title">
     <label>本文</label>
@@ -21,6 +21,8 @@
       <option value="4">4</option>
       <option value="5">5(最高)</option>
     </select>
+
+    <input type="hidden" name="book" value="{{ book.id }}">
 
     <button type="submit" class="btn btn-success mt-4">投稿する</button>
   </form>
