@@ -1,12 +1,18 @@
-from django.db.models import Avg
-from django.core.paginator import Paginator
-from django.shortcuts import render, redirect
-from django.urls import reverse_lazy, reverse
-from django.core.exceptions import PermissionDenied
-from django.views.generic import (ListView, DetailView, CreateView, DeleteView, UpdateView)
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Book, Review
+from django.core.exceptions import PermissionDenied
+from django.core.paginator import Paginator
+from django.db.models import Avg
+from django.shortcuts import render
+from django.urls import reverse_lazy, reverse
+from django.views.generic import (
+    ListView, 
+    DetailView, 
+    CreateView, 
+    DeleteView, 
+    UpdateView,
+)
 from .consts import ITEM_PER_PAGE
+from .models import Book, Review
 
 class ListBookView(LoginRequiredMixin, ListView):
     template_name = 'book/book_list.html'
@@ -28,7 +34,7 @@ class CreateBookView(LoginRequiredMixin, CreateView):
 
 # 削除するview
 class DeleteBookView(LoginRequiredMixin, DeleteView):
-    template_name = 'book/book_confirm_delete.html'
+    template_name = 'book/book_delete.html'
     model = Book
     success_url = reverse_lazy('list-book')
 
@@ -41,8 +47,8 @@ class DeleteBookView(LoginRequiredMixin, DeleteView):
         
         return obj
     
-    def get_success_url(self):
-        return reverse('detail-book', kwargs={'pk':self.object.id})
+    # def get_success_url(self):
+    #     return reverse('detail-book', kwargs={'pk':self.object.id})
     
 # 更新するview
 class UpdateBookView(LoginRequiredMixin, UpdateView):
@@ -60,12 +66,12 @@ class UpdateBookView(LoginRequiredMixin, UpdateView):
         return obj
     
     def get_success_url(self):
-        return reverse('detail-book', kwargs={'pk':self.object.id})
+        return reverse('detail-book', kwargs={'pk': self.object.id})
 
 class CreateReviewView(LoginRequiredMixin, CreateView):
     model = Review
-    fields = ('book', 'title', 'text', 'rate')
     template_name = 'book/review_form.html'
+    fields = ('book', 'title', 'text', 'rate')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -88,7 +94,12 @@ def index_view(request):
     page_number = request.GET.get('page', 1)
     page_obj = paginator.page(page_number)
 
-    return render(request, 
-                'book/index.html',
-                {'object_list': object_list, 'ranking_list': ranking_list, 'page_obj': page_obj},
-                )
+    return render(
+        request,
+        'book/index.html',
+        {
+            'object_list': object_list, 
+            'ranking_list': ranking_list, 
+            'page_obj': page_obj
+        },
+    )
